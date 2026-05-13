@@ -454,6 +454,7 @@ h2{font-size:15px;margin:14px 0 10px}
     <button class="btn" id="btnJSON">💾 Backup JSON</button>
     <button class="btn" id="btnImport">📥 Importa JSON</button>
     <button class="btn" id="btnExportApp">📱 Scarica app HTML</button>
+    <button class="btn" id="btnForceSync" style="background:#1D9E75;color:#fff">☁️ Forza sync → cloud</button>
     <input type="file" id="fileImport" accept=".json" style="display:none">
   </div>
   <div class="mgrid" id="mGrid"><div class="metric"><div class="val">5</div><div class="lbl">Sessioni</div></div><div class="metric"><div class="val">974</div><div class="lbl">kg volume</div></div><div class="metric"><div class="val">155</div><div class="lbl">min cardio</div></div><div class="metric"><div class="val">3365</div><div class="lbl">kcal totali</div></div><div class="metric"><div class="val">2192</div><div class="lbl">kcal pesi</div></div><div class="metric"><div class="val">1173</div><div class="lbl">kcal cardio</div></div><div class="metric"><div class="val">0.0</div><div class="lbl">km extra</div></div></div>
@@ -1556,6 +1557,52 @@ document.getElementById('btnExportApp').onclick = function(){
   showToast('App scaricata — apri il file nel browser');
 };
 
+document.getElementById('btnForceSync').onclick = function(){
+  var btn = document.getElementById('btnForceSync');
+  btn.disabled = true;
+  btn.textContent = '⏳ Sync in corso...';
+  setSyncStatus('☁️ Sync in corso...', '#888');
+
+  // Raccoglie tutti i record locali (entries + extras + schede + acts)
+  var localEntries = entries.length > 0 ? entries : JSON.parse(localStorage.getItem('wt_entries_v2') || '[]');
+  var localExtras  = extras.length  > 0 ? extras  : JSON.parse(localStorage.getItem('wt_extras_v2')  || '[]');
+  var localSchede  = schede.length  > 0 ? schede  : JSON.parse(localStorage.getItem('wt_schede_v4')  || '[]');
+  var localActs    = acts.length    > 0 ? acts    : JSON.parse(localStorage.getItem('wt_acts_v2')    || '[]');
+
+  var total = localEntries.length + localExtras.length;
+  if(total === 0){
+    showToast('⚠️ Nessun dato locale da sincronizzare');
+    btn.disabled = false;
+    btn.textContent = '☁️ Forza sync → cloud';
+    return;
+  }
+
+  // Prima svuota il cloud, poi reinserisce tutto
+  Promise.all([
+    sb('workouts', 'DELETE', null, 'id=neq.00000000-0000-0000-0000-000000000000'),
+    sb('extras',   'DELETE', null, 'id=neq.00000000-0000-0000-0000-000000000000'),
+    sb('schede',   'DELETE', null, 'id=neq.00000000-0000-0000-0000-000000000000'),
+    sb('acts',     'DELETE', null, 'id=neq.00000000-0000-0000-0000-000000000000')
+  ]).then(function(){
+    var promises = [];
+    localEntries.forEach(function(e){ promises.push(pushEntryToCloud(e)); });
+    localExtras.forEach(function(e){  promises.push(pushExtraToCloud(e)); });
+    localSchede.forEach(function(s){  promises.push(pushSchedaToCloud(s)); });
+    localActs.forEach(function(a){    promises.push(sb('acts','POST',{id:a.id,label:a.l}).catch(function(){})); });
+    return Promise.all(promises);
+  }).then(function(){
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+    showToast('✓ ' + total + ' record sincronizzati sul cloud');
+    btn.disabled = false;
+    btn.textContent = '☁️ Forza sync → cloud';
+  }).catch(function(err){
+    setSyncStatus('⚠️ Errore sync', '#c0392b');
+    showToast('❌ Errore: ' + err.message);
+    btn.disabled = false;
+    btn.textContent = '☁️ Forza sync → cloud';
+  });
+};
+
 var btnExp = document.getElementById('btnExportHTML');
 if(btnExp) btnExp.onclick = function(){
   var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
@@ -1895,12 +1942,21 @@ loadFromCloud().then(function(){
       renderWktabs();
       renderForm();
       setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+    }).catch(function(){
+      save();
+      renderWktabs();
+      renderForm();
     });
   } else {
     save();
     renderWktabs();
     renderForm();
   }
+}).catch(function(){
+  // Se loadFromCloud fallisce del tutto, renderizza comunque con dati locali
+  save();
+  renderWktabs();
+  renderForm();
 });
 
 </script>
