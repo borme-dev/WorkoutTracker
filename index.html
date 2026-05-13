@@ -292,36 +292,37 @@
 <title>Workout Tracker</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
-body{background:#f5f5f3;color:#1a1a1a;padding:14px;font-size:14px;padding-bottom:80px}
-h1{font-size:18px;margin-bottom:14px}
+html,body{max-width:100%;overflow-x:hidden}
+body{background:#f5f5f3;color:#1a1a1a;padding:12px;font-size:14px;padding-bottom:80px}
+h1{font-size:17px;margin-bottom:14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
 h2{font-size:15px;margin:14px 0 10px}
-.tabs{display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid #ddd;overflow-x:auto}
-.tab{padding:8px 12px;background:none;border:none;cursor:pointer;font-size:12px;color:#666;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0}
+.tabs{display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid #ddd;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:8px 10px;background:none;border:none;cursor:pointer;font-size:12px;color:#666;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0}
 .tab.active{color:#1D9E75;border-bottom-color:#1D9E75;font-weight:600}
 .page{display:none}
 .page.show{display:block}
 
-.exercise{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:8px}
-.exname{font-weight:600;margin-bottom:4px;font-size:13px;color:#1a1a1a}
-.exspecs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;font-size:11px}
-.spec{padding:2px 8px;background:#f0f7f5;color:#0F6E56;border-radius:10px;font-weight:500}
+.exercise{background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px;margin-bottom:8px;max-width:100%;overflow:hidden}
+.exname{font-weight:600;margin-bottom:4px;font-size:13px;color:#1a1a1a;word-wrap:break-word}
+.exspecs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;font-size:11px}
+.spec{padding:2px 8px;background:#f0f7f5;color:#0F6E56;border-radius:10px;font-weight:500;word-break:break-word}
 .spec.tech{background:#fff4e6;color:#8B4513}
 .spec.rec{background:#e8f0fc;color:#185FA5}
-.row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.row label{font-size:11px;color:#666;flex:1;min-width:100px}
-.row input{width:80px;padding:5px 8px;border:1px solid #ddd;border-radius:5px;font-size:13px}
+.row{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.row label{font-size:11px;color:#666;flex:1;min-width:90px;word-wrap:break-word}
+.row input{width:80px;padding:5px 8px;border:1px solid #ddd;border-radius:5px;font-size:13px;max-width:100%}
 
 .savebtn{display:block;width:100%;padding:12px;background:#1D9E75;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
 
-.entry{background:#fff;border:1px solid #ddd;border-left:3px solid #1D9E75;border-radius:6px;padding:10px;margin-bottom:8px}
+.entry{background:#fff;border:1px solid #ddd;border-left:3px solid #1D9E75;border-radius:6px;padding:10px;margin-bottom:8px;max-width:100%;overflow:hidden}
 .entry.extra{border-left-color:#378ADD}
 .entry-date{font-size:11px;color:#888}
-.entry-name{font-weight:600;margin:2px 0;font-size:13px}
-.entry-data{font-size:12px;color:#555;margin:6px 0;line-height:1.6}
+.entry-name{font-weight:600;margin:2px 0;font-size:13px;word-wrap:break-word}
+.entry-data{font-size:12px;color:#555;margin:6px 0;line-height:1.6;word-wrap:break-word;overflow-wrap:break-word}
 .entry-cal{color:#1D9E75;font-weight:600;font-size:11px;margin-top:4px}
 .entry-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 
-.btn{padding:5px 12px;border-radius:5px;font-size:12px;cursor:pointer;font-weight:500;border:1px solid #ccc;background:#fff;color:#333}
+.btn{padding:5px 12px;border-radius:5px;font-size:12px;cursor:pointer;font-weight:500;border:1px solid #ccc;background:#fff;color:#333;white-space:nowrap}
 .btn-edit{border-color:#185FA5;color:#185FA5}
 .btn-del{border-color:#c0392b;color:#c0392b}
 .btn-del.armed{background:#c0392b;color:#fff}
@@ -330,66 +331,78 @@ h2{font-size:15px;margin:14px 0 10px}
 .empty{color:#888;font-size:13px;text-align:center;padding:20px}
 
 .wktabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
-.wktab{padding:6px 10px;font-size:11px;border:1px solid #ddd;background:#fff;border-radius:5px;cursor:pointer}
+.wktab{padding:6px 10px;font-size:11px;border:1px solid #ddd;background:#fff;border-radius:5px;cursor:pointer;white-space:nowrap}
 .wktab.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1D9E75;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;display:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1D9E75;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;display:none;max-width:90vw}
 .toast.show{display:block}
 
-.editpanel{background:#f0f7ff;border:1px solid #185FA5;border-radius:8px;padding:12px;margin-top:8px}
+.editpanel{background:#f0f7ff;border:1px solid #185FA5;border-radius:8px;padding:10px;margin-top:8px;max-width:100%;overflow:hidden}
 .editpanel h4{font-size:12px;margin-bottom:8px;color:#185FA5}
-.editblock{background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;margin-bottom:6px}
-.editblock-title{font-size:11px;font-weight:600;margin-bottom:5px}
+.editblock{background:#fff;border:1px solid #ddd;border-radius:6px;padding:8px;margin-bottom:6px;max-width:100%;overflow:hidden}
+.editblock-title{font-size:11px;font-weight:600;margin-bottom:5px;word-wrap:break-word}
 
-.atgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin-bottom:12px}
+.atgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(85px,1fr));gap:6px;margin-bottom:12px}
 .atile{padding:10px 4px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#666;cursor:pointer;text-align:center;font-size:11px}
 .atile.sel{border-color:#1D9E75;background:#f0faf5;color:#0F6E56;font-weight:600}
 
-.f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
 .ff label{font-size:10px;color:#888;display:block;margin-bottom:3px}
-.ff input,.ff textarea{width:100%;font-size:13px;padding:6px 8px;border:1px solid #ddd;border-radius:6px}
+.ff input,.ff textarea{width:100%;font-size:13px;padding:6px 8px;border:1px solid #ddd;border-radius:6px;max-width:100%}
 
-.crow{display:flex;gap:6px;margin-bottom:10px}
-.crow input{flex:1;font-size:13px;padding:6px 8px;border:1px solid #ddd;border-radius:6px}
-.crow button{padding:6px 12px;font-size:11px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
+.crow{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.crow input{flex:1;min-width:140px;font-size:13px;padding:6px 8px;border:1px solid #ddd;border-radius:6px}
+.crow button{padding:6px 12px;font-size:11px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;white-space:nowrap}
 
-.irow{display:flex;gap:6px;margin-bottom:10px}
-.ibtn{flex:1;padding:6px;font-size:11px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#666;cursor:pointer}
+.irow{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.ibtn{flex:1;min-width:80px;padding:6px;font-size:11px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#666;cursor:pointer}
 .ibtn.sel-low{background:#E1F5EE;color:#0F6E56;border-color:#1D9E75}
 .ibtn.sel-med{background:#FAEEDA;color:#854F0B;border-color:#BA7517}
 .ibtn.sel-high{background:#FAECE7;color:#993C1D;border-color:#D85A30}
 
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:14px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(85px,1fr));gap:6px;margin-bottom:14px}
 .metric{background:#fff;border:1px solid #ddd;border-radius:8px;padding:10px;text-align:center}
-.metric .val{font-size:17px;font-weight:700;color:#1D9E75}
+.metric .val{font-size:16px;font-weight:700;color:#1D9E75}
 .metric .lbl{font-size:10px;color:#666;margin-top:2px}
 
-.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:10px}
+.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:10px;max-width:100%;overflow:hidden}
 .card-title{font-size:12px;font-weight:600;margin-bottom:8px}
 
 .streak-bar{display:flex;gap:3px;flex-wrap:wrap}
-.sdot{width:18px;height:18px;border-radius:3px;border:1px solid #e8e8e4}
+.sdot{width:16px;height:16px;border-radius:3px;border:1px solid #e8e8e4;flex-shrink:0}
 
-.prow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0ee;font-size:12px}
+.prow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0ee;font-size:12px;gap:8px;flex-wrap:wrap}
 .prow:last-child{border-bottom:none}
 
 .export-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
 
 .scheda-card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:10px}
 .scheda-card.active{border-color:#1D9E75;background:#f0faf5}
-.scheda-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.scheda-name{font-weight:600;font-size:13px}
+.scheda-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:6px}
+.scheda-name{font-weight:600;font-size:13px;word-wrap:break-word}
 .scheda-badge{padding:2px 8px;border-radius:5px;background:#1D9E75;color:#fff;font-size:10px}
 .scheda-meta{font-size:10px;color:#888}
-.scheda-desc{font-size:11px;color:#666;margin-top:4px}
+.scheda-desc{font-size:11px;color:#666;margin-top:4px;word-wrap:break-word}
 
 .add-form{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:12px}
 .add-form input,.add-form textarea{width:100%;font-size:13px;padding:8px;border:1px solid #ddd;border-radius:6px;margin-bottom:8px}
+
+@media (max-width: 480px){
+  body{padding:10px 8px}
+  h1{font-size:15px}
+  .tab{padding:7px 8px;font-size:11px}
+  .exercise{padding:8px}
+  .exname{font-size:12px}
+  .exspecs{gap:4px}
+  .spec{font-size:10px;padding:2px 6px}
+  .row label{min-width:80px;font-size:10px}
+  .f3{grid-template-columns:1fr 1fr}
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" async=""></script></head>
 <body id="artifacts-component-root-html">
 
-<h1>💪 Workout Tracker <span id="syncStatus" style="font-size:11px;font-weight:normal;color:#888;margin-left:8px"></span></h1>
+<h1>💪 Workout Tracker <span id="syncStatus" style="font-size: 11px; font-weight: normal; color: rgb(192, 57, 43); margin-left: 8px;">⚠️ Offline (uso dati locali)</span></h1>
 
 <div class="tabs">
   <button class="tab" data-tab="log">Logga</button>
@@ -402,7 +415,7 @@ h2{font-size:15px;margin:14px 0 10px}
 
 <div class="page" id="page-log">
   <div class="wktabs" id="wktabs"><button class="wktab active">Dorso / Bicipiti</button><button class="wktab">Petto / Tricipiti</button><button class="wktab">Spalle</button><button class="wktab">Gambe + Stabilizzatori spalla</button></div>
-  <div id="workout-form"><div class="exercise" style="background: rgb(240, 247, 255); border-color: rgb(24, 95, 165);"><div class="exname" style="color: rgb(24, 95, 165);">📅 Data allenamento</div><input type="datetime-local" id="workout_date" style="width: 100%; padding: 8px; border: 1px solid rgb(221, 221, 221); border-radius: 5px; font-size: 13px;"></div><div class="exercise"><div class="exname">Vogatore — riscaldamento</div><div class="exspecs"><span class="spec">📊 15 min</span><span class="spec tech">💡 FC 130-160 max</span></div><div class="row"><label>Durata (min)</label><input type="number" step="0.5" id="inp_0_durata"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">15</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>FC media (bpm)</label><input type="number" step="0.5" id="inp_0_fc"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">111</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Calorie</label><input type="number" step="0.5" id="inp_0_cal"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">86</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Lat Machine presa larga</div><div class="exspecs"><span class="spec">📊 10 serie × 10 ripetizioni</span><span class="spec rec">⏱️ rec: 15'' tra serie · 2' dopo la decima</span></div><div class="row"><label>Peso (kg)</label><input type="number" step="0.5" id="inp_1_kg"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">39</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Pulley presa stretta</div><div class="exspecs"><span class="spec">📊 3 serie</span><span class="spec rec">⏱️ rec: 30''</span><span class="spec tech">💡 10'' isometria + 10 colpi + 10'' isometria</span></div><div class="row"><label>Peso (kg)</label><input type="number" step="0.5" id="inp_2_kg"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">32</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">SUPERSERIE: Rematore supino al cavo + Curl bicipiti sbarra</div><div class="exspecs"><span class="spec">📊 4 serie · 15+15 reps</span><span class="spec rec">⏱️ rec: 15''</span><span class="spec tech">💡 Superserie — peso costante per esercizio</span></div><div class="row"><label>Rematore supino (kg)</label><input type="number" step="0.5" id="inp_3_kgA"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">50</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Curl sbarra (kg)</label><input type="number" step="0.5" id="inp_3_kgB"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">23</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">SUPERSERIE: Low row presa larga + Curl bicipiti martello</div><div class="exspecs"><span class="spec">📊 3 serie · 10+12 reps</span><span class="spec rec">⏱️ rec: 30''</span><span class="spec tech">💡 Low row con 2'' isometria max contrazione</span></div><div class="row"><label>Low row (kg)</label><input type="number" step="0.5" id="inp_4_kgA"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">20</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Curl martello (kg)</label><input type="number" step="0.5" id="inp_4_kgB"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">10</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Rear delts machine</div><div class="exspecs"><span class="spec">📊 4 minuti totali</span><span class="spec rec">⏱️ rec: 15'' ad ogni cedimento</span><span class="spec tech">💡 Lavoro a cedimento</span></div><div class="row"><label>Peso (kg)</label><input type="number" step="0.5" id="inp_5_kg"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">35.5</b> (6 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Addome</div><div class="exspecs"><span class="spec">📊 5 serie</span><span class="spec rec">⏱️ rec: 30''</span><span class="spec tech">💡 30 crunch classico + 30'' plank frontale</span></div><div class="row"><label>Completato (1=sì)</label><input type="number" step="0.5" id="inp_6_done"></div></div><div class="exercise"><div class="exname">Vogatore — cardio finale</div><div class="exspecs"><span class="spec">📊 20 min</span><span class="spec tech">💡 FC 150 circa</span></div><div class="row"><label>Durata (min)</label><input type="number" step="0.5" id="inp_7_durata"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">20</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>FC media (bpm)</label><input type="number" step="0.5" id="inp_7_fc"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">133</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Calorie</label><input type="number" step="0.5" id="inp_7_cal"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">208</b> (ieri) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><button class="savebtn">💾 Salva allenamento</button></div>
+  <div id="workout-form"><div class="exercise" style="background: rgb(240, 247, 255); border-color: rgb(24, 95, 165);"><div class="exname" style="color: rgb(24, 95, 165);">📅 Data allenamento</div><input type="datetime-local" id="workout_date" style="width: 100%; padding: 8px; border: 1px solid rgb(221, 221, 221); border-radius: 5px; font-size: 13px;"></div><div class="exercise"><div class="exname">Vogatore — riscaldamento</div><div class="exspecs"><span class="spec">📊 15 min</span><span class="spec tech">💡 FC 130-160 max</span></div><div class="row"><label>Durata (min)</label><input type="number" step="0.5" id="inp_0_durata"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">15</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>FC media (bpm)</label><input type="number" step="0.5" id="inp_0_fc"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">111</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Calorie</label><input type="number" step="0.5" id="inp_0_cal"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">86</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Lat Machine presa larga</div><div class="exspecs"><span class="spec">📊 10 serie × 10 ripetizioni</span><span class="spec rec">⏱️ rec: 15'' tra serie · 2' dopo la decima</span></div><div class="row"><label>Peso (kg)</label><input type="number" step="0.5" id="inp_1_kg"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">39</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Pulley presa stretta</div><div class="exspecs"><span class="spec">📊 3 serie</span><span class="spec rec">⏱️ rec: 30''</span><span class="spec tech">💡 10'' isometria + 10 colpi + 10'' isometria</span></div><div class="row"><label>Peso (kg)</label><input type="number" step="0.5" id="inp_2_kg"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">32</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">SUPERSERIE: Rematore supino al cavo + Curl bicipiti sbarra</div><div class="exspecs"><span class="spec">📊 4 serie · 15+15 reps</span><span class="spec rec">⏱️ rec: 15''</span><span class="spec tech">💡 Superserie — peso costante per esercizio</span></div><div class="row"><label>Rematore supino (kg)</label><input type="number" step="0.5" id="inp_3_kgA"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">50</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Curl sbarra (kg)</label><input type="number" step="0.5" id="inp_3_kgB"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">23</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">SUPERSERIE: Low row presa larga + Curl bicipiti martello</div><div class="exspecs"><span class="spec">📊 3 serie · 10+12 reps</span><span class="spec rec">⏱️ rec: 30''</span><span class="spec tech">💡 Low row con 2'' isometria max contrazione</span></div><div class="row"><label>Low row (kg)</label><input type="number" step="0.5" id="inp_4_kgA"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">20</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Curl martello (kg)</label><input type="number" step="0.5" id="inp_4_kgB"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">10</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Rear delts machine</div><div class="exspecs"><span class="spec">📊 4 minuti totali</span><span class="spec rec">⏱️ rec: 15'' ad ogni cedimento</span><span class="spec tech">💡 Lavoro a cedimento</span></div><div class="row"><label>Peso (kg)</label><input type="number" step="0.5" id="inp_5_kg"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">35.5</b> (6 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><div class="exercise"><div class="exname">Addome</div><div class="exspecs"><span class="spec">📊 5 serie</span><span class="spec rec">⏱️ rec: 30''</span><span class="spec tech">💡 30 crunch classico + 30'' plank frontale</span></div><div class="row"><label>Completato (1=sì)</label><input type="number" step="0.5" id="inp_6_done"></div></div><div class="exercise"><div class="exname">Vogatore — cardio finale</div><div class="exspecs"><span class="spec">📊 20 min</span><span class="spec tech">💡 FC 150 circa</span></div><div class="row"><label>Durata (min)</label><input type="number" step="0.5" id="inp_7_durata"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">20</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>FC media (bpm)</label><input type="number" step="0.5" id="inp_7_fc"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">133</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div><div class="row"><label>Calorie</label><input type="number" step="0.5" id="inp_7_cal"></div><div style="font-size: 10px; color: rgb(136, 136, 136); margin-left: 0px; margin-top: -2px; margin-bottom: 4px; cursor: pointer; padding-left: 2px;">↑ Ultima volta: <b style="color:#1D9E75">208</b> (2 giorni fa) — <span style="color:#185FA5;text-decoration:underline">usa questo</span></div></div><button class="savebtn">💾 Salva allenamento</button></div>
 </div>
 
 <div class="page" id="page-extra">
@@ -451,7 +464,7 @@ h2{font-size:15px;margin:14px 0 10px}
       <span><span style="display:inline-block;width:10px;height:10px;background:#378ADD;border-radius:2px;vertical-align:middle;margin-right:3px"></span>Extra</span>
       <span><span style="display:inline-block;width:10px;height:10px;background:#7F77DD;border-radius:2px;vertical-align:middle;margin-right:3px"></span>Entrambi</span>
     </div>
-    <div class="streak-bar" id="streakBar"><div class="sdot" style="background:#eee" title="2026-04-15"></div><div class="sdot" style="background:#eee" title="2026-04-16"></div><div class="sdot" style="background:#eee" title="2026-04-17"></div><div class="sdot" style="background:#eee" title="2026-04-18"></div><div class="sdot" style="background:#eee" title="2026-04-19"></div><div class="sdot" style="background:#eee" title="2026-04-20"></div><div class="sdot" style="background:#eee" title="2026-04-21"></div><div class="sdot" style="background:#eee" title="2026-04-22"></div><div class="sdot" style="background:#eee" title="2026-04-23"></div><div class="sdot" style="background:#eee" title="2026-04-24"></div><div class="sdot" style="background:#eee" title="2026-04-25"></div><div class="sdot" style="background:#eee" title="2026-04-26"></div><div class="sdot" style="background:#eee" title="2026-04-27"></div><div class="sdot" style="background:#eee" title="2026-04-28"></div><div class="sdot" style="background:#eee" title="2026-04-29"></div><div class="sdot" style="background:#eee" title="2026-04-30"></div><div class="sdot" style="background:#eee" title="2026-05-01"></div><div class="sdot" style="background:#eee" title="2026-05-02"></div><div class="sdot" style="background:#eee" title="2026-05-03"></div><div class="sdot" style="background:#eee" title="2026-05-04"></div><div class="sdot" style="background:#eee" title="2026-05-05"></div><div class="sdot" style="background:#1D9E75" title="2026-05-06"></div><div class="sdot" style="background:#1D9E75" title="2026-05-07"></div><div class="sdot" style="background:#1D9E75" title="2026-05-08"></div><div class="sdot" style="background:#1D9E75" title="2026-05-09"></div><div class="sdot" style="background:#eee" title="2026-05-10"></div><div class="sdot" style="background:#1D9E75" title="2026-05-11"></div><div class="sdot" style="background:#eee" title="2026-05-12"></div></div>
+    <div class="streak-bar" id="streakBar"><div class="sdot" style="background:#eee" title="2026-04-16"></div><div class="sdot" style="background:#eee" title="2026-04-17"></div><div class="sdot" style="background:#eee" title="2026-04-18"></div><div class="sdot" style="background:#eee" title="2026-04-19"></div><div class="sdot" style="background:#eee" title="2026-04-20"></div><div class="sdot" style="background:#eee" title="2026-04-21"></div><div class="sdot" style="background:#eee" title="2026-04-22"></div><div class="sdot" style="background:#eee" title="2026-04-23"></div><div class="sdot" style="background:#eee" title="2026-04-24"></div><div class="sdot" style="background:#eee" title="2026-04-25"></div><div class="sdot" style="background:#eee" title="2026-04-26"></div><div class="sdot" style="background:#eee" title="2026-04-27"></div><div class="sdot" style="background:#eee" title="2026-04-28"></div><div class="sdot" style="background:#eee" title="2026-04-29"></div><div class="sdot" style="background:#eee" title="2026-04-30"></div><div class="sdot" style="background:#eee" title="2026-05-01"></div><div class="sdot" style="background:#eee" title="2026-05-02"></div><div class="sdot" style="background:#eee" title="2026-05-03"></div><div class="sdot" style="background:#eee" title="2026-05-04"></div><div class="sdot" style="background:#eee" title="2026-05-05"></div><div class="sdot" style="background:#1D9E75" title="2026-05-06"></div><div class="sdot" style="background:#1D9E75" title="2026-05-07"></div><div class="sdot" style="background:#1D9E75" title="2026-05-08"></div><div class="sdot" style="background:#1D9E75" title="2026-05-09"></div><div class="sdot" style="background:#eee" title="2026-05-10"></div><div class="sdot" style="background:#1D9E75" title="2026-05-11"></div><div class="sdot" style="background:#eee" title="2026-05-12"></div><div class="sdot" style="background:#eee" title="2026-05-13"></div></div>
   </div>
   <div class="card">
     <div class="card-title">Max kg per esercizio</div>
@@ -459,7 +472,7 @@ h2{font-size:15px;margin:14px 0 10px}
   </div>
   <div class="card">
     <div class="card-title">Volume settimanale (kg)</div>
-    <div style="position:relative;height:180px"><canvas id="volChart" width="1131" height="432" style="display: block; box-sizing: border-box; height: 180px; width: 471px;"></canvas></div>
+    <div style="position:relative;height:180px"><canvas id="volChart" width="1086" height="432" style="display: block; box-sizing: border-box; height: 180px; width: 452px;"></canvas></div>
   </div>
   <div class="card">
     <div class="card-title">Cardio extra per attività</div>
@@ -469,7 +482,7 @@ h2{font-size:15px;margin:14px 0 10px}
 
 <div class="page" id="page-storico">
   <h2>Storico</h2>
-  <div id="entries"><div class="entry"><div class="entry-date">lun 11 mag 2026 06:15</div><div class="entry-name">Dorso / Bicipiti</div><div class="entry-data"><strong>Vogatore — riscaldamento</strong> — durata: 15, fc: 111, cal: 86<br><strong>Lat Machine presa larga</strong> — kg: 39<br><strong>Pulley presa stretta</strong> — kg: 32<br><strong>SUPERSERIE: Rematore supino al cavo + Curl bicipiti sbarra</strong> — kgA: 50, kgB: 23<br><strong>SUPERSERIE: Low row presa larga + Curl bicipiti martello</strong> — kgA: 20, kgB: 10<br><strong>Addome</strong> — done: 1<br><strong>Vogatore — cardio finale</strong> — durata: 20, fc: 133, cal: 208</div><div class="entry-cal">~416 kcal pesi</div><div class="entry-actions"><button class="btn btn-edit">✏️ Modifica</button><button class="btn btn-del">🗑️ Elimina</button></div></div><div class="entry"><div class="entry-date">sab 9 mag 2026 12:30</div><div class="entry-name">Gambe + Stabilizzatori spalla</div><div class="entry-data"><strong>Leg Extension</strong> — kg: 50<br><strong>Leg Curl sdraiato</strong> — kg: 27<br><strong>Leg Extension drop-set</strong> — kgA: 62, kgB: 50<br><strong>Leg Curl seduto drop-set</strong> — kgA: 57, kgB: 50<br><strong>Polpacci multipower su step</strong> — kg: 10<br><strong>Affondi in camminata con sacco</strong> — kg: 20<br><strong>SUPERSERIE: Extrarotazioni manubri prono 45° + Extrarotazioni cavo altezza fianco</strong> — kgA: 4, kgB: 4.5<br><strong>Cyclette — cardio finale</strong> — durata: 20, fc: 106, cal: 90</div><div class="entry-cal">~472 kcal pesi</div><div class="entry-actions"><button class="btn btn-edit">✏️ Modifica</button><button class="btn btn-del">🗑️ Elimina</button></div></div><div class="entry"><div class="entry-date">ven 8 mag 2026 09:18</div><div class="entry-name">Spalle</div><div class="entry-data"><strong>Extrarotazioni cavo altezza spalla</strong> — kg: 4.5<br><strong>TRIPLETTA: Alzate laterali manubri + Alzate frontali disco + Alzate posteriori prono panca</strong> — kgA: 7.5, kgB: 10, kgC: 5<br><strong>Alzate laterali manubri seduto — STRIPPING</strong> — kgA: 10, kgB: 7.5, kgC: 5<br><strong>Arnold Press</strong> — kg: 12<br><strong>Pulley presa stretta — attivazione scapole</strong> — kg: 32<br><strong>Addome</strong> — done: 1<br><strong>Cardio post — velocità costante</strong> — durata: 30, fc: 114, cal: 185</div><div class="entry-cal">~447 kcal pesi</div><div class="entry-actions"><button class="btn btn-edit">✏️ Modifica</button><button class="btn btn-del">🗑️ Elimina</button></div></div><div class="entry"><div class="entry-date">gio 7 mag 2026 08:05</div><div class="entry-name">Petto / Tricipiti</div><div class="entry-data"><strong>Vogatore — riscaldamento</strong> — durata: 15, fc: 125, cal: 129<br><strong>Chest press</strong> — kg: 29<br><strong>Pec fly</strong> — kg: 66<br><strong>Spinte manubri panca piana</strong> — kg: 18<br><strong>SUPERSERIE: Pushdown corda + Tricipiti corda sopra la testa</strong> — kgA: 32, kgB: 18<br><strong>SUPERSERIE: Kick Back manubri + French press panca piana</strong> — kgA: 4, kgB: 7.5<br><strong>Addome</strong> — done: 1<br><strong>Cardio — corsa intervallata</strong> — durata: 20, fc: 131, cal: 190</div><div class="entry-cal">~428 kcal pesi</div><div class="entry-actions"><button class="btn btn-edit">✏️ Modifica</button><button class="btn btn-del">🗑️ Elimina</button></div></div><div class="entry"><div class="entry-date">mer 6 mag 2026 21:20</div><div class="entry-name">Dorso / Bicipiti</div><div class="entry-data"><strong>Vogatore — riscaldamento</strong> — durata: 15, fc: 119, cal: 109<br><strong>Lat Machine presa larga</strong> — kg: 39<br><strong>Pulley presa stretta</strong> — kg: 28.5<br><strong>SUPERSERIE: Rematore supino al cavo + Curl bicipiti sbarra</strong> — kgA: 50, kgB: 16.5<br><strong>SUPERSERIE: Low row presa larga + Curl bicipiti martello</strong> — kgA: 20, kgB: 7.5<br><strong>Rear delts machine</strong> — kg: 35.5<br><strong>Addome</strong> — done: 1<br><strong>Vogatore — cardio finale</strong> — durata: 20, fc: 126, cal: 176</div><div class="entry-cal">~429 kcal pesi</div><div class="entry-actions"><button class="btn btn-edit">✏️ Modifica</button><button class="btn btn-del">🗑️ Elimina</button></div></div></div>
+  <div id="entries"></div>
 </div>
 
 <div class="page" id="page-progress">
@@ -484,18 +497,214 @@ h2{font-size:15px;margin:14px 0 10px}
   <p style="font-size:11px;color:#888;margin-bottom:10px">Storico schede di allenamento. Aggiungi una nuova quando cambia la programmazione.</p>
   <div id="addSchedaForm" style="display:none"></div>
   <button class="btn" id="btnAddScheda" style="margin-bottom:12px">+ Aggiungi scheda</button>
-  <div id="schedeList"><div class="scheda-card active"><div class="scheda-head"><div class="scheda-name">Scheda Maggio 2026 — Project Soma</div><span class="scheda-badge">Attiva</span></div><div class="scheda-meta">Aggiunta: 2026-05-01 · 5 sessioni · 4 workout</div></div></div>
+  <div id="schedeList"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// Carica Chart.js in modo asincrono e non bloccante
+// =================================================================
+// SUPABASE CONFIG
+// =================================================================
+var SUPABASE_URL = 'https://wsdoaebjchsrtnahztjp.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzZG9hZWJqY2hzcnRuYWh6dGpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDg5NjQsImV4cCI6MjA5NDE4NDk2NH0.HrJum10CcWi7HPCxNv0aGNB5pr8Izz6dGYeTWVg4OJo';
+
+function setSyncStatus(text, color){
+  var el = document.getElementById('syncStatus');
+  if(!el) return;
+  el.textContent = text;
+  el.style.color = color || '#888';
+}
+
+function sb(table, method, body, queryParams){
+  var url = SUPABASE_URL + '/rest/v1/' + table;
+  if(queryParams) url += '?' + queryParams;
+  return fetch(url, {
+    method: method,
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method === 'POST' ? 'return=minimal' : (method === 'PATCH' ? 'return=minimal' : '')
+    },
+    body: body ? JSON.stringify(body) : undefined
+  }).then(function(r){
+    if(!r.ok) return r.text().then(function(t){ throw new Error(r.status + ': ' + t); });
+    var ct = r.headers.get('content-type') || '';
+    return ct.indexOf('json') > -1 ? r.json() : null;
+  });
+}
+
+// =================================================================
+// CARICAMENTO INIZIALE
+// =================================================================
+function loadFromCloud(){
+  setSyncStatus('☁️ Caricamento...', '#888');
+  return Promise.all([
+    sb('workouts', 'GET', null, 'select=*&order=date.desc'),
+    sb('extras', 'GET', null, 'select=*&order=date.desc'),
+    sb('schede', 'GET', null, 'select=*'),
+    sb('acts', 'GET', null, 'select=*')
+  ]).then(function(results){
+    var cloudWorkouts = results[0] || [];
+    var cloudExtras = results[1] || [];
+    var cloudSchede = results[2] || [];
+    var cloudActs = results[3] || [];
+
+    // Converti formato cloud → formato app
+    entries = cloudWorkouts.map(function(w){
+      return {
+        id: w.id, type: w.type, schedaId: w.scheda_id,
+        workoutIdx: w.workout_idx, workout: w.workout_name,
+        date: w.date, data: w.data, calPesi: w.cal_pesi
+      };
+    });
+    extras = cloudExtras.map(function(e){
+      return {
+        id: e.id, type: e.type, actId: e.act_id, actLabel: e.act_label,
+        date: e.date, dur: e.dur, dist: e.dist, fc: e.fc, passo: e.passo,
+        cal: e.cal, disl: e.disl, int: e.intensita, note: e.note
+      };
+    });
+
+    if(cloudSchede.length > 0){
+      schede = cloudSchede.map(function(s){
+        return {
+          id: s.id, name: s.name, desc: s.description,
+          addedDate: s.added_date, active: s.active, workouts: s.workouts
+        };
+      });
+    } else {
+      // Prima volta: pusha la scheda default sul cloud
+      pushSchedaToCloud(SCHEDA_DEFAULT);
+    }
+
+    if(cloudActs.length > 0){
+      acts = cloudActs.map(function(a){ return { id: a.id, l: a.label }; });
+    } else {
+      // Prima volta: pusha attività default
+      DEF_ACTS.forEach(function(a){
+        sb('acts', 'POST', { id: a.id, label: a.l }).catch(function(){});
+      });
+    }
+
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+    return true;
+  }).catch(function(err){
+    console.error('Cloud load error:', err);
+    setSyncStatus('⚠️ Offline (uso dati locali)', '#c0392b');
+    // Fallback: usa localStorage come prima
+    entries = JSON.parse(localStorage.getItem('wt_entries_v2') || '[]');
+    extras  = JSON.parse(localStorage.getItem('wt_extras_v2')  || '[]');
+    schede  = JSON.parse(localStorage.getItem('wt_schede_v4')  || JSON.stringify([SCHEDA_DEFAULT]));
+    acts    = JSON.parse(localStorage.getItem('wt_acts_v2')    || JSON.stringify(DEF_ACTS));
+    return false;
+  });
+}
+
+// =================================================================
+// PUSH SU CLOUD
+// =================================================================
+function pushEntryToCloud(entry){
+  setSyncStatus('☁️ Sync...', '#888');
+  return sb('workouts', 'POST', {
+    id: entry.id,
+    type: entry.type,
+    scheda_id: entry.schedaId,
+    workout_idx: entry.workoutIdx,
+    workout_name: entry.workout,
+    date: entry.date,
+    data: entry.data,
+    cal_pesi: entry.calPesi || 0
+  }).then(function(){
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+  }).catch(function(err){
+    console.error(err);
+    setSyncStatus('⚠️ Errore sync', '#c0392b');
+  });
+}
+
+function pushExtraToCloud(extra){
+  setSyncStatus('☁️ Sync...', '#888');
+  return sb('extras', 'POST', {
+    id: extra.id,
+    type: extra.type,
+    act_id: extra.actId,
+    act_label: extra.actLabel,
+    date: extra.date,
+    dur: extra.dur || 0,
+    dist: extra.dist || 0,
+    fc: extra.fc || 0,
+    passo: extra.passo || 0,
+    cal: extra.cal || 0,
+    disl: extra.disl || 0,
+    intensita: extra.int || null,
+    note: extra.note || null
+  }).then(function(){
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+  }).catch(function(err){
+    console.error(err);
+    setSyncStatus('⚠️ Errore sync', '#c0392b');
+  });
+}
+
+function pushSchedaToCloud(s){
+  return sb('schede', 'POST', {
+    id: s.id,
+    name: s.name,
+    description: s.desc || null,
+    added_date: s.addedDate,
+    active: s.active,
+    workouts: s.workouts
+  }).catch(function(err){ console.error('Push scheda err:', err); });
+}
+
+function updateEntryInCloud(entry){
+  setSyncStatus('☁️ Sync...', '#888');
+  return sb('workouts', 'PATCH', {
+    data: entry.data,
+    date: entry.date,
+    cal_pesi: entry.calPesi || 0
+  }, 'id=eq.' + entry.id).then(function(){
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+  }).catch(function(err){
+    setSyncStatus('⚠️ Errore sync', '#c0392b');
+  });
+}
+
+function updateExtraInCloud(extra){
+  setSyncStatus('☁️ Sync...', '#888');
+  return sb('extras', 'PATCH', {
+    date: extra.date,
+    dur: extra.dur || 0,
+    dist: extra.dist || 0,
+    fc: extra.fc || 0,
+    passo: extra.passo || 0,
+    cal: extra.cal || 0,
+    disl: extra.disl || 0,
+    note: extra.note || null
+  }, 'id=eq.' + extra.id).then(function(){
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+  }).catch(function(err){
+    setSyncStatus('⚠️ Errore sync', '#c0392b');
+  });
+}
+
+function deleteFromCloud(table, id){
+  setSyncStatus('☁️ Sync...', '#888');
+  return sb(table, 'DELETE', null, 'id=eq.' + id).then(function(){
+    setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+  }).catch(function(err){
+    setSyncStatus('⚠️ Errore sync', '#c0392b');
+  });
+}
+
+// =================================================================
+// Carica Chart.js in modo asincrono
 (function loadChart(){
   var s = document.createElement('script');
   s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
   s.async = true;
-  s.onerror = function(){ console.log('Chart.js non caricato — grafico disabilitato'); };
   document.head.appendChild(s);
 })();
 </script>
@@ -576,10 +785,10 @@ var DEF_ACTS = [
 // =================================================================
 // STATO
 // =================================================================
-var entries = JSON.parse(localStorage.getItem('wt_entries_v2') || '[]');
-var extras  = JSON.parse(localStorage.getItem('wt_extras_v2')  || '[]');
-var schede  = JSON.parse(localStorage.getItem('wt_schede_v4')  || JSON.stringify([SCHEDA_DEFAULT]));
-var acts    = JSON.parse(localStorage.getItem('wt_acts_v2')    || JSON.stringify(DEF_ACTS));
+var entries = [];
+var extras  = [];
+var schede  = [];
+var acts    = [];
 
 var currentWk = 0;
 var editingId = null;
@@ -588,6 +797,7 @@ var selInt = null;
 var vchart = null;
 
 function save(){
+  // Cache locale (per offline)
   localStorage.setItem('wt_entries_v2', JSON.stringify(entries));
   localStorage.setItem('wt_extras_v2',  JSON.stringify(extras));
   localStorage.setItem('wt_schede_v4',  JSON.stringify(schede));
@@ -810,6 +1020,7 @@ function saveWorkout(){
 
   entries.push(entry);
   save();
+  pushEntryToCloud(entry);
   showToast('✓ Allenamento salvato (~'+entry.calPesi+' kcal)');
   renderForm();
 }
@@ -859,7 +1070,7 @@ document.getElementById('btnSaveExtra').onclick = function(){
   var a = acts.filter(function(x){return x.id===selAct;})[0];
   var dateInp = document.getElementById('ex_date');
   var date = dateInp && dateInp.value ? new Date(dateInp.value).toISOString() : new Date().toISOString();
-  extras.push({
+  var newExtra = {
     id: 'e_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),
     type: 'extra',
     actId: selAct,
@@ -873,8 +1084,10 @@ document.getElementById('btnSaveExtra').onclick = function(){
     disl: parseFloat(document.getElementById('ex_disl').value)||0,
     int: selInt || '',
     note: document.getElementById('ex_note').value
-  });
+  };
+  extras.push(newExtra);
   save();
+  pushExtraToCloud(newExtra);
   ['ex_dur','ex_dist','ex_fc','ex_passo','ex_cal','ex_disl','ex_note','ex_date'].forEach(function(id){
     var el = document.getElementById(id); if(el) el.value = '';
   });
@@ -998,8 +1211,11 @@ function buildEntryCard(entry){
     clearTimeout(armTimer);
     var f = findEntryById(entry.id);
     if(f){
+      var table = f.isExtra ? 'extras' : 'workouts';
+      var deletedId = entry.id;
       f.arr.splice(f.idx, 1);
       save();
+      deleteFromCloud(table, deletedId);
       showToast('Eliminato');
       renderStorico();
     }
@@ -1149,6 +1365,11 @@ function buildEditCard(entry){
     }
 
     save();
+    if(e.type === 'extra'){
+      updateExtraInCloud(e);
+    } else {
+      updateEntryInCloud(e);
+    }
     editingId = null;
     showToast('Modifiche salvate');
     renderStorico();
@@ -1659,10 +1880,28 @@ document.getElementById('btnAddScheda').onclick = function(){
 // =================================================================
 // INIT
 // =================================================================
-renderWktabs();
-renderForm();
-// Forza re-render dopo che il DOM è completo
-setTimeout(function(){ renderForm(); }, 100);
+loadFromCloud().then(function(){
+  // Migrazione one-shot: se ci sono dati locali ma il cloud era vuoto, pushali
+  var localEntries = JSON.parse(localStorage.getItem('wt_entries_v2') || '[]');
+  var localExtras = JSON.parse(localStorage.getItem('wt_extras_v2') || '[]');
+
+  if(entries.length === 0 && localEntries.length > 0){
+    setSyncStatus('☁️ Migrazione dati locali...', '#888');
+    var promises = [];
+    localEntries.forEach(function(e){ promises.push(pushEntryToCloud(e)); entries.push(e); });
+    localExtras.forEach(function(e){ promises.push(pushExtraToCloud(e)); extras.push(e); });
+    Promise.all(promises).then(function(){
+      save();
+      renderWktabs();
+      renderForm();
+      setSyncStatus('☁️ Sincronizzato', '#1D9E75');
+    });
+  } else {
+    save();
+    renderWktabs();
+    renderForm();
+  }
+});
 
 </script>
 
